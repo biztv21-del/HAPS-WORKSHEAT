@@ -1,0 +1,842 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="구글 제미나이로 나만의 사진 주제를 찾아 하나의 프로젝트로 세우는 10단계 워크시트. 미학적사진학교.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="나의 사진 주제 워크시트">
+<meta property="og:description" content="제미나이로 사진 주제를 찾는 10단계 — 프롬프트를 복사해 쓰고, 답을 적고, 제출 코드로 주고받습니다.">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%B7%3C/text%3E%3C/svg%3E">
+<style>
+/* 기본 리셋 — 단독 웹페이지용 */
+html{-webkit-text-size-adjust:100%}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>나의 사진 주제 워크시트</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;600&family=Noto+Sans+KR:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#FAF6F4; --surface:#FFFFFF; --surface-2:#F2ECE9;
+  --cream:#EFE7DC; --blush:#F7DFDA;
+  --ink:#241E1C; --ink-2:#4A403D; --muted:#8A7C77;
+  --line:#E4DAD5; --line-2:#CFC1BA;
+  --accent:#B0603F; --accent-ink:#8F4A2E;
+  --alert-bg:#1F4266; --alert-fg:#FFFFFF; --alert-hi:#F2C4BC;
+  --prompt-bg:#EAEEF4; --prompt-bar:#1F4266; --prompt-label:#1F4266;
+  --fill:#FDF0D9; --fill-ink:#8A5A12;
+  --f-display:"Noto Serif KR", Georgia, serif;
+  --f-body:"Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#16110F; --surface:#1F1916; --surface-2:#2A2320;
+    --cream:#2B231C; --blush:#33221E;
+    --ink:#F0E7E2; --ink-2:#C9BBB5; --muted:#9A8A84;
+    --line:#332B27; --line-2:#473B36;
+    --accent:#E0A183; --accent-ink:#F0BCA3;
+    --alert-bg:#16283A; --alert-fg:#EAF1F8; --alert-hi:#E8B3A6;
+    --prompt-bg:#18222E; --prompt-bar:#5B87B5; --prompt-label:#9CC2E6;
+    --fill:#332A16; --fill-ink:#E7C481;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#16110F; --surface:#1F1916; --surface-2:#2A2320;
+  --cream:#2B231C; --blush:#33221E;
+  --ink:#F0E7E2; --ink-2:#C9BBB5; --muted:#9A8A84;
+  --line:#332B27; --line-2:#473B36;
+  --accent:#E0A183; --accent-ink:#F0BCA3;
+  --alert-bg:#16283A; --alert-fg:#EAF1F8; --alert-hi:#E8B3A6;
+  --prompt-bg:#18222E; --prompt-bar:#5B87B5; --prompt-label:#9CC2E6;
+  --fill:#332A16; --fill-ink:#E7C481;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);
+  font-size:16px;line-height:1.75;font-weight:400;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--f-display);font-weight:600;margin:0;text-wrap:balance;line-height:1.35}
+p{margin:0}
+button{font-family:inherit}
+
+/* ── top bar ── */
+.bar{position:sticky;top:0;z-index:30;background:var(--paper);border-bottom:1px solid var(--line)}
+.bar-in{max-width:1180px;margin:0 auto;padding:10px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.bar-name{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.prog{flex:1 1 160px;min-width:120px;display:flex;align-items:center;gap:10px}
+.prog-track{flex:1;height:4px;background:var(--line);border-radius:99px;overflow:hidden}
+.prog-fill{height:100%;width:0%;background:var(--accent);transition:width .3s}
+.prog-num{font-family:var(--f-mono);font-size:11.5px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.btn{border:1px solid var(--line-2);background:transparent;color:var(--ink-2);border-radius:2px;
+  padding:6px 12px;font-size:12.5px;cursor:pointer;white-space:nowrap;transition:color .15s,border-color .15s}
+.btn:hover{color:var(--accent-ink);border-color:var(--accent)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn-solid{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn-solid:hover{color:#fff;opacity:.9}
+
+.shell{max-width:1180px;margin:0 auto;padding:0 24px 100px}
+.layout{display:grid;grid-template-columns:1fr;gap:0}
+@media (min-width:1060px){.layout{grid-template-columns:198px minmax(0,1fr);gap:60px;align-items:start}}
+main{min-width:0}
+
+/* ── masthead ── */
+.masthead{padding:52px 0 34px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--accent-ink);margin:0 0 14px;font-weight:500}
+.masthead h1{font-size:clamp(32px,5vw,50px);font-weight:300;letter-spacing:-.01em}
+.dek{margin-top:18px;max-width:60ch;color:var(--ink-2);font-size:16.5px;font-weight:300}
+.meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px 10px;font-family:var(--f-mono);
+  font-size:11.5px;letter-spacing:.05em;color:var(--muted)}
+.meta span{border:1px solid var(--line-2);border-radius:2px;padding:4px 9px}
+
+/* ── card (내 프로젝트 카드) ── */
+.mycard{margin:36px 0 0;background:var(--blush);border-radius:3px;padding:26px 24px 24px}
+.mycard h2{font-size:21px;margin-bottom:6px}
+.mycard .note{font-size:14px;color:var(--ink-2);max-width:64ch}
+.fields{margin-top:20px;display:grid;gap:14px}
+@media (min-width:700px){.fields{grid-template-columns:1fr 1fr}}
+.field{display:flex;flex-direction:column;gap:5px}
+.field.wide{grid-column:1/-1}
+.field label{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink)}
+.field input,.field textarea{font-family:var(--f-body);font-size:14.5px;color:var(--ink);
+  background:var(--surface);border:1px solid var(--line-2);border-radius:2px;padding:9px 11px;width:100%;resize:vertical}
+.field input:focus,.field textarea:focus{outline:2px solid var(--accent);outline-offset:0;border-color:var(--accent)}
+.field .hint{font-size:12px;color:var(--muted)}
+
+/* ── principles ── */
+.principles{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);margin:34px 0 0}
+@media (min-width:760px){.principles{grid-template-columns:repeat(3,1fr)}}
+.principle{background:var(--surface);padding:22px 20px 24px;display:flex;flex-direction:column;gap:9px}
+.principle b{font-family:var(--f-mono);font-size:11px;letter-spacing:.13em;color:var(--accent-ink);font-weight:500}
+.principle h3{font-size:17px}
+.principle p{font-size:14px;color:var(--ink-2);line-height:1.7}
+
+/* ── rail ── */
+.rail{display:none}
+@media (min-width:1060px){
+  .rail{display:block;position:sticky;top:56px;padding:60px 0 40px;align-self:start}
+  .rail p.eyebrow{margin-bottom:14px;color:var(--muted)}
+  .rail ol{list-style:none;margin:0;padding:0;border-left:1px solid var(--line)}
+  .rail a{display:grid;grid-template-columns:24px 1fr;gap:9px;align-items:baseline;
+    padding:6px 0 6px 13px;margin-left:-1px;border-left:2px solid transparent;
+    text-decoration:none;color:var(--muted);font-size:13px;line-height:1.45}
+  .rail a .n{font-family:var(--f-mono);font-size:10.5px}
+  .rail a:hover{color:var(--ink)}
+  .rail a.on{color:var(--ink);border-left-color:var(--accent);font-weight:500}
+  .rail a.on .n{color:var(--accent-ink)}
+  .rail a.done .n::after{content:"✓";margin-left:2px;color:var(--accent)}
+}
+
+/* ── step ── */
+.step{padding:52px 0;border-bottom:1px solid var(--line);scroll-margin-top:64px}
+.step-head{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:start}
+.step-no{font-family:var(--f-mono);font-size:12.5px;font-weight:500;color:var(--accent-ink);
+  background:var(--blush);width:42px;height:42px;display:grid;place-items:center;border-radius:50%}
+.step-head .eyebrow{margin-bottom:5px}
+.step-head h2{font-size:clamp(22px,3vw,28px)}
+.goal{margin-top:18px;font-size:16.5px;color:var(--ink-2);max-width:64ch;font-weight:300}
+.prep{margin-top:16px;font-size:13.5px;color:var(--muted);border-left:2px solid var(--line-2);padding:2px 0 2px 13px}
+
+/* ── prompt ── */
+.prompt{margin:26px 0 0;background:var(--prompt-bg);border-radius:3px;overflow:hidden;
+  border-left:3px solid var(--prompt-bar)}
+.prompt + .prompt{margin-top:16px}
+.prompt-top{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:11px 16px 9px;border-bottom:1px solid rgba(128,128,128,.18)}
+.prompt-label{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.08em;color:var(--prompt-label);font-weight:500}
+.prompt pre{margin:0;padding:18px 18px 20px;white-space:pre-wrap;word-break:break-word;
+  font-family:var(--f-body);font-size:14.5px;line-height:1.85;color:var(--ink);font-weight:300;overflow-x:auto}
+.prompt pre b{font-weight:600}
+.slot{background:var(--fill);color:var(--fill-ink);border-radius:2px;padding:0 4px;font-weight:500}
+.slot.empty{background:transparent;color:var(--muted);border-bottom:1px solid var(--line-2);
+  padding:0 2px;font-weight:400}
+
+/* ── sub / trap / gate ── */
+.sub,.gate,.trap,.answer{margin-top:26px}
+.sub h3,.gate h3,.trap h3,.answer h3{font-family:var(--f-mono);font-size:11px;letter-spacing:.15em;
+  text-transform:uppercase;font-weight:500;color:var(--muted);margin-bottom:11px}
+.sub ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px}
+.sub li{font-size:14.5px;color:var(--ink-2);padding-left:17px;position:relative;line-height:1.7}
+.sub li::before{content:"—";position:absolute;left:0;color:var(--line-2)}
+.trap{background:var(--cream);border-radius:3px;padding:18px 20px}
+.trap h3{color:var(--accent-ink)}
+.trap p{font-size:14px;color:var(--ink-2);line-height:1.75}
+.trap p+p{margin-top:8px}
+.alert{background:var(--alert-bg);color:var(--alert-fg);border-radius:3px;padding:20px 22px;margin-top:26px}
+.alert h3{font-family:var(--f-body);font-size:16px;font-weight:700;margin-bottom:9px;color:var(--alert-fg)}
+.alert p{font-size:14px;line-height:1.75}
+.alert p+p{margin-top:8px}
+.alert .hi{color:var(--alert-hi);font-weight:500}
+
+.answer textarea{width:100%;min-height:84px;font-family:var(--f-body);font-size:14.5px;color:var(--ink);
+  background:var(--surface);border:1px solid var(--line-2);border-radius:2px;padding:11px 12px;resize:vertical;line-height:1.7}
+.answer textarea:focus{outline:2px solid var(--accent);outline-offset:0;border-color:var(--accent)}
+.saved{font-family:var(--f-mono);font-size:10.5px;color:var(--muted);margin-top:6px;height:14px}
+
+.gate{border-top:1px solid var(--line);padding-top:20px}
+.gate ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
+.gate label{display:flex;gap:11px;align-items:flex-start;cursor:pointer;font-size:14.5px;color:var(--ink-2)}
+.gate input{appearance:none;-webkit-appearance:none;flex:0 0 auto;width:15px;height:15px;margin-top:5px;
+  border:1px solid var(--line-2);border-radius:2px;background:var(--surface);cursor:pointer;position:relative}
+.gate input:checked{background:var(--accent);border-color:var(--accent)}
+.gate input:checked::after{content:"";position:absolute;left:4px;top:1px;width:4px;height:8px;
+  border:solid var(--surface);border-width:0 1.5px 1.5px 0;transform:rotate(42deg)}
+.gate input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.gate input:checked + span{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--line-2)}
+
+/* ── tables ── */
+.wrap-x{overflow-x:auto;margin-top:22px}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:14.5px}
+th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{font-family:var(--f-mono);font-size:11px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--muted);font-weight:500;border-bottom:1px solid var(--line-2)}
+td.k{color:var(--accent-ink);font-weight:500;white-space:nowrap}
+td.w{font-family:var(--f-mono);font-size:12.5px;color:var(--accent-ink);white-space:nowrap}
+td.s{color:var(--ink-2);font-weight:500}
+
+/* ── closing ── */
+.closing{background:var(--alert-bg);color:var(--alert-fg);border-radius:3px;padding:40px 32px;margin-top:52px}
+.closing .eyebrow{color:var(--alert-hi)}
+.closing h2{font-size:clamp(21px,3vw,26px);font-weight:300;color:var(--alert-fg)}
+.closing ol{margin:24px 0 0;padding:0;list-style:none;counter-reset:k;display:flex;flex-direction:column}
+.closing li{counter-increment:k;display:grid;grid-template-columns:32px 1fr;gap:13px;padding:14px 0;
+  border-top:1px solid rgba(255,255,255,.14);font-size:14.5px;line-height:1.7}
+.closing li::before{content:counter(k,decimal-leading-zero);font-family:var(--f-mono);font-size:11px;
+  color:var(--alert-hi);padding-top:5px}
+.closing .tail{margin-top:26px;padding-top:22px;border-top:1px solid rgba(255,255,255,.14);
+  font-family:var(--f-display);font-size:16.5px;font-weight:300;max-width:52ch}
+.colophon{margin-top:36px;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.05em;color:var(--muted)}
+/* ── 공유 보기 배너 ── */
+.banner{display:none;margin:22px 0 0;background:var(--alert-bg);color:var(--alert-fg);
+  border-radius:3px;padding:20px 22px;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.banner.on{display:flex}
+.banner h3{font-family:var(--f-body);font-size:16px;font-weight:700;color:var(--alert-fg);margin-bottom:4px}
+.banner p{font-size:13.5px;color:var(--alert-hi)}
+.banner .acts{display:flex;gap:8px;flex-wrap:wrap}
+.banner .btn{border-color:rgba(255,255,255,.4);color:var(--alert-fg)}
+.banner .btn:hover{border-color:#fff;color:#fff}
+body.viewing .mycard{background:var(--surface-2)}
+body.viewing input,body.viewing textarea{background:var(--surface-2);color:var(--ink-2)}
+body.viewing .answer h3::after{content:" · 읽기 전용";color:var(--muted)}
+.share-note{margin-top:10px;font-size:12.5px;color:var(--muted)}
+.modal[hidden]{display:none!important}
+.modal{position:fixed;inset:0;z-index:80;background:rgba(20,14,12,.55);
+  display:flex;align-items:center;justify-content:center;padding:24px}
+.modal-box{background:var(--surface);color:var(--ink);border-radius:4px;padding:26px 24px 22px;
+  width:min(620px,100%);max-height:86vh;overflow:auto;border:1px solid var(--line-2)}
+.modal-box h3{font-size:20px;margin-bottom:8px}
+.modal-box p{font-size:14px;color:var(--ink-2);line-height:1.7}
+.modal-box textarea{width:100%;min-height:150px;margin-top:14px;font-family:var(--f-mono);font-size:11.5px;
+  line-height:1.6;color:var(--ink);background:var(--surface-2);border:1px solid var(--line-2);
+  border-radius:2px;padding:10px;resize:vertical;word-break:break-all}
+.modal-box textarea:focus{outline:2px solid var(--accent);border-color:var(--accent)}
+.modal-acts{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(14px);
+  background:var(--alert-bg);color:var(--alert-fg);font-size:13.5px;padding:10px 18px;border-radius:3px;
+  opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:60}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="bar">
+  <div class="bar-in">
+    <span class="bar-name">미학적사진학교 · 워크시트</span>
+    <span class="prog">
+      <span class="prog-track"><span class="prog-fill" id="pfill"></span></span>
+      <span class="prog-num" id="pnum">0 / 28</span>
+    </span>
+    <a class="btn" href="https://gemini.google.com" target="_blank" rel="noopener">제미나이 열기 ↗</a>
+    <button class="btn btn-solid" type="button" id="shareBtn">제출 코드 만들기</button>
+    <button class="btn" type="button" id="openBtn">받은 코드 열기</button>
+    <button class="btn" type="button" id="exportBtn">전체 내용 복사</button>
+    <button class="btn" type="button" id="resetBtn">전체 지우기</button>
+  </div>
+</div>
+
+<div class="shell">
+  <header class="masthead">
+    <p class="eyebrow">사진 프로젝트 연구·기획 강좌 · 입문 과정</p>
+    <h1>나의 사진 주제 워크시트</h1>
+    <p class="dek">구글 제미나이로 내 사진 주제를 찾아 하나의 프로젝트로 세우는 열 단계.
+      아래 <b>내 프로젝트 카드</b>를 채우면 모든 프롬프트의 빈칸이 자동으로 채워집니다.
+      각 단계의 프롬프트를 복사해 제미나이에 붙여넣고, 받은 답을 이 페이지에 적어 두세요.
+      다 쓰고 나면 위의 <b>‘제출 코드 만들기’</b>로 내가 쓴 내용 전체를 코드 한 덩어리로 복사해
+      선생님이나 동료에게 보내고, 받은 사람은 같은 페이지에서 <b>‘받은 코드 열기’</b>로 그대로 펼쳐 볼 수 있습니다.</p>
+    <p class="meta"><span>AI 처음 쓰는 분용</span><span>10 STEP</span><span>권장 8주</span><span>내가 쓴 내용은 내 브라우저에만 저장됩니다</span><span>링크만 있으면 누구나 사용</span></p>
+  </header>
+
+  <section class="banner" id="banner" aria-live="polite">
+    <div>
+      <h3 id="bannerTitle">다른 사람의 워크시트를 보고 있습니다</h3>
+      <p id="bannerNote">읽기 전용입니다. 내용을 고치려면 아래 버튼을 눌러 내 워크시트로 가져오세요.</p>
+    </div>
+    <div class="acts">
+      <button class="btn" type="button" id="importBtn">이 내용을 내 워크시트로 가져오기</button>
+      <button class="btn" type="button" id="backBtn">내 워크시트로 돌아가기</button>
+    </div>
+  </section>
+
+  <section class="mycard" id="card">
+    <h2>내 프로젝트 카드</h2>
+    <p class="note">한 번만 채워 두면 아래 모든 프롬프트에 자동으로 들어갑니다. 단계가 진행되면서 내용이 바뀌면 여기서 고치세요.</p>
+    <div class="fields">
+      <div class="field"><label for="f-name">이름 <span style="color:var(--muted)">· 제출용</span></label>
+        <input id="f-name" data-k="name" placeholder="예 · 황인선"></div>
+      <div class="field"><label for="f-years">사진 경력</label>
+        <input id="f-years" data-k="years" placeholder="예 · 7"><span class="hint">숫자만 (년)</span></div>
+      <div class="field"><label for="f-subject">주로 찍는 것</label>
+        <input id="f-subject" data-k="subject" placeholder="예 · 동네 골목과 오래된 간판"></div>
+      <div class="field wide"><label for="f-theme">주제 후보 한 문장 <span style="color:var(--muted)">· STEP 02에서 씀</span></label>
+        <input id="f-theme" data-k="theme" placeholder="예 · 새벽에 문 여는 동네 가게들"></div>
+      <div class="field wide"><label for="f-question">내 질문 한 문장 <span style="color:var(--muted)">· STEP 03부터 계속 씀</span></label>
+        <input id="f-question" data-k="question" placeholder="예 · 도시가 잠든 시간에도 켜져 있는 불빛은 누구를 위한 것인가"></div>
+      <div class="field"><label for="f-place">찍는 장소 · 기간</label>
+        <input id="f-place" data-k="place" placeholder="예 · 서울 중림동 일대 / 6개월"></div>
+      <div class="field"><label for="f-rules">나의 규칙 세 문장 <span style="color:var(--muted)">· STEP 04에서 만듦</span></label>
+        <input id="f-rules" data-k="rules" placeholder="예 · 해뜨기 전에만 / 얼굴은 안 찍는다 / 한 곳을 세 번 간다"></div>
+    </div>
+  </section>
+
+  <section class="principles" aria-label="사용 원칙">
+    <div class="principle"><b>태도 01</b><h3>묻게 만드세요</h3>
+      <p>여기 프롬프트는 대부분 ‘저에게 되물어 주세요’로 끝납니다. AI가 질문하고 내가 답할 때 비로소 내 것이 나옵니다.</p></div>
+    <div class="principle"><b>태도 02</b><h3>첫 답은 버리세요</h3>
+      <p>처음 나온 답이 매끄럽다면 그건 누구나 아는 답입니다. “더 구체적으로”, “반대 입장에서”를 이어서 물어보세요.</p></div>
+    <div class="principle"><b>태도 03</b><h3>내 이야기를 넣으세요</h3>
+      <p>AI는 내가 어디에 오래 서 있었는지 모릅니다. 장소·시간·있었던 일을 적을수록 답이 달라집니다.</p></div>
+  </section>
+
+  <div class="layout">
+    <nav class="rail" aria-label="단계 이동">
+      <p class="eyebrow">단계</p>
+      <ol id="rail"></ol>
+    </nav>
+    <main id="main"></main>
+  </div>
+</div>
+<div class="modal" id="modal" hidden>
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <h3 id="modalTitle">제출 코드</h3>
+    <p id="modalNote"></p>
+    <textarea id="modalText" spellcheck="false"></textarea>
+    <div class="modal-acts">
+      <button class="btn btn-solid" type="button" id="modalOk">복사</button>
+      <button class="btn" type="button" id="modalClose">닫기</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ─────────── 데이터 ─────────── */
+var STEPS = [
+ {n:"00",tag:"코치 만들기",t:"제미나이 안에 ‘내 사진 코치’를 하나 만듭니다",
+  goal:"매번 “당신은 사진 선생님입니다”라고 설명하지 않아도 되도록, 역할과 규칙을 기억시켜 둡니다. 한 번만 하면 그다음부터는 그냥 대화하면 됩니다.",
+  prep:"왼쪽 위 ‘사이드바 열기’ → Gems → 새 Gem → 이름에 ‘내 사진 코치’ → ‘요청 사항’에 아래 글 붙여넣기 → 저장. Gems가 안 보이면 새 채팅 첫 메시지로 붙여넣어도 됩니다.",
+  prompts:[{label:"Gem 요청 사항 (최초 1회)",body:
+"[역할] 당신은 20년 경력의 사진 프로젝트 지도 선생님입니다. 제가 저만의 사진 주제를 찾아 하나의 프로젝트로 완성하도록 단계별로 도와주세요.\n\n[제 사정] 저는 사진을 찍은 지 {{years}}년 되었고, 주로 {{subject}}을(를) 찍습니다. 아직 저만의 주제를 정하지 못했습니다.\n\n*[답변 규칙]*\n1. 칭찬으로 시작하지 마세요. 제가 물어본 것에만 답해 주세요.\n2. 판단할 정보가 부족하면 짐작하지 말고 저에게 먼저 물어봐 주세요. 한 번에 세 개까지만.\n3. “빛이 중요합니다” 같은 일반적인 조언은 하지 마세요. 제가 드린 사진과 이야기 안에 있는 구체적인 내용만 근거로 삼아 주세요.\n4. 작가 이름·전시·연도가 확실하지 않으면 지어내지 말고 ‘확인 필요’라고 표시해 주세요.\n5. 한 번에 500자 이내로 짧게. 정리할 수 있는 것은 표로 보여 주세요.\n6. 답변 끝에 ‘다음에 정해야 할 것 한 가지’를 한 문장으로 붙여 주세요.\n\n*먼저 저를 파악해 주세요. 저에 대해 알아야 할 것을 질문 5개로 물어봐 주세요. 제가 답한 뒤에 시작하겠습니다.*"}],
+  answer:"코치가 나에게 물어본 질문 5개 중, 답하기 가장 어려웠던 것",
+  gates:["제미나이가 조언을 늘어놓지 않고 ‘질문 5개’를 되물어 왔다.","이 프로젝트를 위한 대화창(또는 Gem)을 하나 정해 두었다."]},
+
+ {n:"01",tag:"찾기",t:"주제는 새로 만드는 것이 아니라 찾아내는 것",
+  goal:"이미 찍어둔 사진 안에 답이 들어 있습니다. 다만 내 사진이라 내 눈에 안 보일 뿐입니다. 그래서 남(AI)에게 대신 세어 달라고 합니다.",
+  prep:"최근 2~3년 사진 중 ‘왜 찍었는지 모르겠는데 못 지운’ 사진 60장 정도. 잘 찍은 사진 말고. 입력창 옆 ＋로 한 번에 10~15장씩 나눠 올립니다.",
+  prompts:[{label:"사진을 먼저 올리고 붙여넣기",body:
+"첨부한 사진들은 제가 지난 3년간 찍은 것 중 지우지 못한 것들입니다. 주제를 정하지 않고 찍었습니다. 아래를 표로 정리해 주세요.\n\n1) 자주 나오는 소재 상위 7개\n2) 반복되는 촬영 습관 — 가까이 찍나 멀리 찍나, 눈높이인가 낮은 곳인가, 빛의 방향, 색감\n3) 자주 찍는 시간대와 장소의 성격 (지나가는 곳인가, 머무는 곳인가)\n4) 제가 무의식적으로 계속 찍고 있는 ‘관계’는 무엇일까요? 추측 3개와 그 근거가 된 사진 번호를 알려 주세요.\n5) 이 중에서 확실히 튀는 사진 5장을 골라 주세요.\n\n*마지막에, 판단하기 위해 저에게 물어보고 싶은 질문 3개를 해 주세요.*"}],
+  subs:["“4번의 두 번째 추측을 더 깊이 설명해 주세요.”","“제가 인정하기 싫어할 만한 것을 하나만 짚어 주세요.”","“방금 답을 중학생도 알아듣게 다시 써 주세요.”"],
+  trap:["“도시의 고독” 같은 뻔한 답이 나오면, AI가 아니라 사진 묶음이 뻔한 것입니다. 사진을 다시 골라 올리세요.",
+        "고르는 기준은 ‘마음에 드는 사진’이 아니라 ‘설명이 안 되는데 못 지운 사진’입니다."],
+  answer:"AI가 말한 ‘관계’ 추측 세 가지와, 그중 가장 뜨끔했던 것",
+  gates:["세 가지 추측 중 하나에 “내가 그걸 하고 있었나” 싶은 느낌이 들었다.","그 추측에 해당하는 사진을 내가 더 찾아낼 수 있다.","추측 하나를 한 문장으로 옮겨 적었다."]},
+
+ {n:"02",tag:"다듬기",t:"‘무엇을 찍는가’에서 ‘무엇을 묻는가’로",
+  goal:"‘골목을 찍는다’는 소재이고, ‘재개발이 지운 시간’은 주제이며, ‘사라진 장소는 어디에 남는가’는 질문입니다. 질문까지 올라가야 몇 년을 갈 수 있는 작업이 됩니다.",
+  prompts:[{label:"‘주제 후보 한 문장’을 채우고 붙여넣기",body:
+"제가 찍고 싶은 것은 {{theme}} 입니다.\n\n1) 이것을 세 단계로 나눠 주세요.\n   · 소재 — 카메라 앞에 실제로 있는 것\n   · 주제 — 그것으로 다루려는 것\n   · 질문 — 보는 사람에게 남는 물음 한 문장\n\n2) 그 질문 문장을 아래 세 가지로 점검해 주세요.\n   A. ‘사진’이라는 단어를 빼도 말이 되나요? (안 되면 아직 소재 단계입니다)\n   B. 반대로 생각하는 사람도 있을 수 있나요? (없다면 질문이 아니라 그냥 사실입니다)\n   C. 5년을 찍어도 안 지겨울까요?\n\n*3) 걸리는 게 있으면, 세 가지를 모두 통과하는 문장 3개를 만들어 주고 각각이 어떻게 다른 작업이 되는지 알려 주세요.*"}],
+  subs:["“이 질문을 가장 좁게 만들면 어디에서 몇 달 동안 찍으면 될까요?”","“제 문장에서 어려운 말을 다 빼고 다시 써 주세요.”"],
+  trap:["‘고독·소외·기억·존재’ 같은 큰 단어가 돌아오면 실패 신호입니다. 그런 말은 어떤 사진에도 붙기 때문에 아무 사진도 설명하지 못합니다.",
+        "“더 멋있게 써 주세요”가 아니라 “절반 크기로 줄여 주세요”라고 하는 편이 언제나 낫습니다."],
+  answer:"확정한 내 질문 한 문장 — 위 카드의 ‘내 질문’에도 옮겨 적으세요",
+  gates:["질문 한 문장을 적었다.","어디서, 얼마 동안, 무엇을 찍을지 정했다.","남에게 말했을 때 “그거 어떻게 찍을 건데?”라는 반응이 돌아왔다."]},
+
+ {n:"03",tag:"살펴보기",t:"이미 누가 했는지 먼저 봅니다",
+  goal:"겁먹으려고 보는 것이 아닙니다. 남들이 아직 안 한 자리를 찾으려고 보는 것입니다. 모르고 시작하면 3년 뒤에 남의 작업과 똑같아집니다.",
+  prompts:[{label:"붙여넣기",body:
+"제 프로젝트의 질문은 “{{question}}” 이고, 찍는 대상은 {{subject}}, 장소와 기간은 {{place}} 입니다.\n\n1) 이 질문을 다룬 사진 작업을 세 종류로 찾아 주세요.\n   · 사진 역사에서 기준이 된 작업 3~5\n   · 최근 15년 안의 국내·해외 작업 각 3~4\n   · 영화·그림·소설에서의 접근 3\n2) 각각 [작가 / 작업 이름 / 연도 / 어떤 방식인지 한 줄]로 표를 만들어 주세요.\n3) 아직 아무도 안 한 자리 3곳을 알려 주세요.\n4) 제 작업이 이들과 달라지려면 무엇이 달라야 할지 한 가지만 짚어 주세요.\n\n*※ 확실하지 않은 이름·연도는 지어내지 말고 ‘확인 필요’라고 표시해 주세요. 제가 직접 검색해서 확인하겠습니다.*"}],
+  alert:{h:"⚠ 여기서 가장 조심해야 합니다",p:[
+    "AI는 없는 작가 이름과 전시를 아주 그럴듯하게 지어냅니다. 받은 목록은 정답이 아니라 <b>검색해 볼 이름 목록</b>입니다.",
+    "<span class='hi'>확인하는 법 — ① 받은 이름을 구글이나 네이버에 그대로 검색한다 ② 작품 이미지가 실제로 나오는지 본다 ③ 안 나오면 목록에서 지운다.</span>",
+    "확인되지 않은 이름을 작가노트나 발표 자료에 쓰면, 작업 전체의 신뢰가 무너집니다."]},
+  answer:"검색해서 실제로 확인한 참고 작업 (작가 / 작업 이름 / 확인한 곳)",
+  gates:["받은 목록에서 이름 세 개 이상을 직접 검색해 확인했다.","이미지가 나오지 않는 이름이 있었다면, 목록에서 지웠다.","“이건 내가 하려던 것과 비슷하다” 싶은 작업을 하나 찾았다."]},
+
+ {n:"04",tag:"나의 규칙",t:"현장에서 지킬 규칙 세 개를 만듭니다",
+  goal:"어려운 이론이 아닙니다. 규칙이 있으면 현장에서 ‘무엇을 안 찍을지’가 정해집니다. 그것만으로 사진이 달라집니다.",
+  prep:"대표 사진 몇 장을 함께 올리면 훨씬 구체적인 답이 나옵니다.",
+  prompts:[{label:"대표 사진 몇 장을 올리고 붙여넣기",body:
+"제 프로젝트의 질문은 “{{question}}” 입니다. 대표 사진 몇 장을 첨부합니다.\n아래 세 가지로 봐 주세요. 이론 설명은 두 줄 안으로 줄이고, 제 사진 이야기만 해 주세요.\n\n1) 제 사진은 풍경(장면) · 마음(감정) · 이야기(사건) 중 어디에 치우쳐 있나요? 비율을 %로 알려 주고, 부족한 쪽을 채우려면 무엇을 더 찍어야 할지 말해 주세요.\n2) 이 주제에서 누구나 떠올리는 뻔한 장면은 무엇인가요? 그것을 피하면서 제 눈이 가는 지점을 살리려면 어떤 상황에서 찍어야 할까요? 다섯 가지 상황으로 알려 주세요.\n3) 잘 찍는 쪽으로 가면 무엇을 잃고, 생각을 담는 쪽으로 가면 무엇을 잃나요?\n\n*마지막으로 위 셋을 종합해서, 제가 촬영 현장에서 지킬 규칙 세 문장을 만들어 주세요. 한 문장은 반드시 ‘무엇을 찍지 않는다’여야 하고, 세 문장 모두 짧아야 합니다.*"}],
+  subs:["“이 세 규칙 중 제가 가장 먼저 어길 것 같은 건 뭘까요?”","“이 규칙을 지키면 제 사진이 잃게 되는 것은 무엇인가요?”"],
+  example:"규칙 예시 — ① 해가 뜨기 전에만 찍는다 ② 사람의 얼굴은 찍지 않는다 ③ 한 장소를 세 번 이상 다시 간다",
+  answer:"내 규칙 세 문장 — 위 카드의 ‘나의 규칙’에도 옮겨 적으세요",
+  gates:["규칙 세 문장을 적었고, 그중 하나는 ‘하지 않는다’이다.","세 문장을 외워서 말할 수 있다.","이 규칙에 따라 예전 사진 중 버릴 것이 생겼다."]},
+
+ {n:"05",tag:"계획",t:"찍기 전에 계획표 한 장을 만듭니다",
+  goal:"영화감독이 콘티를 짜듯 합니다. 무작정 찍고 나중에 고르는 것과, 빈자리를 알고 채우러 가는 것은 결과가 완전히 다릅니다.",
+  prompts:[{label:"붙여넣기",body:
+"제 프로젝트를 한 편의 영화처럼 계획해 주세요.\n질문: “{{question}}”\n제 규칙 세 문장: “{{rules}}”\n장소와 기간: {{place}}\n\n1) 한 줄 요약 — 25자 이내로 세 가지 안을 만들어 주세요.\n2) 묶음 나누기 — 전체를 4~6개 묶음으로 나누고, 각 묶음마다 [이름 / 이 묶음이 하는 일 / 멀리 찍나 가까이 찍나 / 분위기 / 몇 장쯤]을 표로 정리해 주세요.\n3) 꼭 필요한 컷 — 묶음마다 3장씩, [무엇이 화면에 있나 / 어디에 서서 찍나 / 어떤 빛에서 / 왜 꼭 필요한가]를 적어 주세요.\n4) 첫 사진과 마지막 사진은 실제 사진이 아니라 ‘조건’으로 정해 주세요.\n\n*전체를 인쇄할 수 있게 A4 한 장 분량으로 줄여 주세요.*"}],
+  subs:["“묶음 순서를 바꾼 다른 안 두 가지와, 각각에서 잃게 되는 것을 알려 주세요.”","“이 계획표를 표 하나로 정리해서 인쇄하기 좋게 만들어 주세요.”"],
+  trap:["‘꼭 필요한 컷’이 이미 다 찍혀 있다면 좋은 신호가 아닙니다. 그 작업은 이미 끝난 것입니다.",
+        "절반 이상이 아직 안 찍은 사진이어야 앞으로 나갈 이유가 있습니다."],
+  answer:"묶음 이름 4~6개와, 아직 못 찍은 ‘꼭 필요한 컷’",
+  gates:["인쇄해서 들고 다닐 계획표 한 장이 있다.","‘꼭 필요한 컷’의 절반 이상이 아직 안 찍힌 사진이다.","마지막 사진의 조건을 말로 설명할 수 있다."]},
+
+ {n:"06",tag:"촬영과 점검",t:"나가기 전 5분, 돌아와서 15분",
+  goal:"이 단계는 짧은 프롬프트 두 개를 매주 반복하는 것이 전부입니다. 길게 쓰지 마세요. 이 반복이 쌓이는 것이 프로젝트입니다.",
+  prompts:[
+   {label:"① 나가기 전",body:
+"이번 주 촬영 조건입니다.\n장소: {{place}} / 시간대: ____ / 날씨와 빛: ____\n찍어 와야 할 것: ____\n제 규칙: {{rules}}\n\n1) 이 조건에서 실패할 만한 이유 세 가지와 각각의 대비책을 알려 주세요.\n2) 제 규칙을 지키기 위해 현장에서 스스로에게 던질 질문 세 개를 만들어 주세요.\n3) 오늘 이 조건에서만 가능한 시도 두 가지를 제안해 주세요.\n\n*※ 설명하지 말고 목록으로만, 짧게.*"},
+   {label:"② 돌아온 뒤 (사진을 올리고)",body:
+"오늘 찍은 것 중 남긴 사진 __장을 첨부합니다.\n\n1) 각 사진이 어느 묶음에 들어가나요? 들어갈 자리가 없는 것은 표시해 주세요.\n2) 지난주와 똑같이 반복하고 있는 습관이 있나요? 구체적으로 알려 주세요.\n3) 아직 못 찍은 항목과, 그것을 찍으려면 어떤 조건이 필요한지 알려 주세요.\n*4) 오늘 사진 중 제 질문 “{{question}}”에 가장 가까운 것 딱 한 장만 골라 주세요. 이유도 함께.*"}],
+  alert:{h:"매주 빠지는 함정",p:[
+    "AI에게 매주 확인받다 보면, 어느새 ‘AI가 좋아할 사진’을 찍게 됩니다. AI는 설명하기 쉬운 사진을 좋아하지만, 작업을 살리는 사진은 대개 설명이 안 되는 사진입니다.",
+    "<span class='hi'>2주에 한 번은 AI 없이 혼자 고르고, 두 선택이 어떻게 다른지 적어 두세요. 그 차이가 내 취향입니다.</span>"]},
+  answer:"AI 선택과 내 선택이 갈렸던 지점 (날짜와 함께 계속 덧붙이세요)",
+  gates:["‘꼭 필요한 컷’ 목록의 대부분이 채워졌다.","AI 선택과 내 선택이 갈린 지점을 세 번 이상 적어 두었다.","“더 찍어도 같은 사진이 나온다”는 느낌이 왔다."]},
+
+ {n:"07",tag:"고르기",t:"‘같은 말을 하는 사진’을 줄입니다",
+  goal:"고르기는 좋은 사진을 뽑는 일이 아니라, 서로 같은 일을 하는 사진을 줄이는 일입니다. AI가 이걸 잘합니다 — 사진에 정이 없기 때문입니다.",
+  prep:"후보 사진 전체와, 최종적으로 몇 장으로 줄일지 목표 숫자를 정해 두세요. 사진이 많으면 10~15장씩 나눠 올리고 “앞서 올린 것까지 합쳐서 봐 주세요”라고 이어서 말합니다.",
+  prompts:[{label:"후보 사진을 올리고 붙여넣기",body:
+"최종 후보 __장을 첨부합니다. 최종적으로 __장으로 줄이고 싶습니다. 제 질문은 “{{question}}” 입니다.\n\n1) 각 사진에 [어느 묶음 / 멀리·가까이 / 분위기 / 이 사진만 가진 정보]를 붙여 표로 정리해 주세요.\n2) 서로 같은 말을 하고 있는 사진 짝을 모두 찾아 주세요. 각 짝에서 어느 쪽을 남길지와 그 이유도요.\n3) 순서 안을 세 가지 만들어 주세요. (가) 이야기 순서 (나) 리듬 순서 (다) 충돌 배치\n   각 안의 첫 5장과 마지막 3장을 정하고, 보는 사람에게 어떻게 다르게 느껴질지 설명해 주세요.\n4) 각 안에서 무엇을 포기하게 되는지 알려 주세요.\n\n*5) 어느 안에도 못 들어가는 사진들을 모아 주세요. 좋은데 못 들어간다면 그 사진들의 공통점이 무엇인지도요.*"}],
+  trap:["화면에서 끝내지 마세요. 작게라도 인쇄해서 바닥에 늘어놓고 직접 순서를 바꿔 봐야 합니다.",
+        "AI가 준 순서는 ‘의견’이고, 바닥에 늘어놓은 프린트가 ‘확인’입니다."],
+  answer:"고른 순서 안과, 아깝지만 뺀 사진들의 공통점",
+  gates:["프린트를 늘어놓고 두 번 이상 순서를 바꿔 봤다.","“아깝지만 뺀” 사진이 다섯 장 이상 있다.","첫 사진과 마지막 사진을 정했다."]},
+
+ {n:"08",tag:"글쓰기",t:"작가노트는 AI가 제일 잘 쓰고, 제일 티가 납니다",
+  goal:"그래서 이 단계의 목적은 글을 대신 받는 것이 아니라, 내 말버릇을 찾아내는 것입니다. 뼈대는 맡겨도 되지만 문장은 안 됩니다.",
+  prep:"먼저 녹음하듯, 이 작업에 대해 할 수 있는 말을 다듬지 말고 그대로 적어 두세요. 맞춤법도 신경 쓰지 마세요.",
+  prompts:[{label:"말하듯 적은 글을 그대로 넣고 붙여넣기",body:
+"아래는 제가 이 작업에 대해 할 수 있는 말 전부입니다. 다듬지 않고 말한 그대로 적었습니다.\n“____________________________________________”\n제 작업의 질문은 “{{question}}” 입니다.\n\n1) 제가 자꾸 반복해서 쓴 말과, 이상하게 피하고 있는 말을 짚어 주세요. 피한 말이 더 중요합니다.\n2) 작가노트 초고를 800자로 써 주세요. 규칙: 꾸미는 말은 최소로 / ‘~인 것 같다’ 금지 / 첫 문장은 제가 실제로 본 장면으로 시작 / 질문에 답하지 말고 열어 둘 것 / 어려운 사진 용어는 두 개 이하.\n3) 제목 후보 일곱 개를 주세요. 각각 어떤 느낌으로 기울어지는지 한 줄로 설명해 주세요.\n\n*4) 위 초고에서 ‘제가 쓴 문장’이 아니라 ‘AI가 쓴 티가 나는 문장’을 전부 짚어 주세요. 그 문장은 제가 직접 고쳐 쓰겠습니다.*"}],
+  subs:["“제 초고를 300자로 줄이고, 줄이면서 사라진 것 중 꼭 살려야 할 것 하나를 알려 주세요.”","“이 글을 캔버스로 열어 주세요.” — 긴 글은 옆 화면에서 문단별로 고쳐 쓸 수 있습니다."],
+  trap:["4번이 이 단계의 진짜 목적입니다. 초고를 받으려고 쓰는 프롬프트가 아닙니다.",
+        "AI 문장은 매끄럽지만 다 비슷합니다. 그대로 내면 심사하는 사람은 바로 알아봅니다."],
+  answer:"내 손으로 다시 쓴 첫 문장과, 고른 제목",
+  gates:["노트 문장의 대부분을 내 손으로 다시 썼다.","제목을 소리 내어 말했을 때 부끄럽지 않다.","어려운 사진 용어가 두 개 이하다."]},
+
+ {n:"09",tag:"미리 혼나보기",t:"듣기 싫은 말을 지금 미리 들어둡니다",
+  goal:"전시장에서 처음 듣는 것보다 낫습니다. AI는 여러 사람 흉내를 잘 냅니다. 이 단계에서는 칭찬을 금지시키세요.",
+  prompts:[
+   {label:"① 네 사람의 눈으로 비판받기",body:
+"제 작업을 아래 네 사람의 입장에서 각각 비판해 주세요. 칭찬은 각각 한 줄 이내로만.\n자료: 작가노트 “____” / 사진 __장 첨부 / 제목 “____” / 질문 “{{question}}”\n\n· 사진을 전혀 모르는 사람 — 무엇이 보이고 무엇이 끝내 안 보이는지\n· 이 주제의 전문가(사진 말고) — 사실이 틀렸거나 예의에 어긋난 곳은 없는지\n· 전시 기획자 — ‘왜 지금 이 작업인가’에 답이 되는지\n· 10년 뒤의 저 — 지금의 어떤 선택을 후회할 것 같은지\n\n*마지막으로, 제가 가장 듣기 싫어할 질문 세 개를 만들어 주세요.*"},
+   {label:"② 어디로 내보낼지 정하기",body:
+"이 작업을 전시 / 사진집 / 포트폴리오 / 인터넷 공개, 네 가지로 각각 어떻게 내보내면 좋을지 알려 주세요.\n각각에서 무엇이 살고 무엇이 죽는지, 사진 장수와 순서는 어떻게 달라져야 하는지도요.\n*그리고 제 작업에 가장 맞는 하나를 골라 주고, 지금 당장 바꿔야 할 것 세 가지를 알려 주세요.*"}],
+  answer:"가장 듣기 싫었던 질문 세 개와, 각각에 대한 내 한 문장 답",
+  gateHead:"이 작업이 끝났다는 신호",
+  gates:["가장 듣기 싫은 질문 세 개에 각각 한 문장으로 답할 수 있다.","답하지 못한 질문이 하나 남았고, 그것이 다음 작업의 출발점이 됐다.","어디로 내보낼지 정했고, 그에 맞춰 사진 장수를 다시 조정했다."]}
+];
+
+var FIX = [
+ ["답이 너무 뻔해요","“지금 답은 누구나 할 수 있는 말입니다. 제 사진에만 해당하는 이야기로 다시 해 주세요.”"],
+ ["없는 작가를 말해요","“방금 목록에서 확실하지 않은 것을 표시해 주세요.” → 그다음 이름을 직접 검색해 확인합니다."],
+ ["답이 너무 길어요","“핵심만 다섯 줄로 줄여 주세요.” 또는 “표로 정리해 주세요.”"],
+ ["한국 사정을 몰라요","“이건 한국 상황과 다릅니다. 한국의 [도시·동네 이름] 기준으로 다시 봐 주세요.”"],
+ ["사진을 못 알아봐요","한 번에 10~15장씩 나눠 올리고, “사진마다 번호를 붙여서 답해 주세요”라고 요청합니다."],
+ ["말이 어려워요","“방금 그 말을 중학생도 알아듣게 다시 설명해 주세요.”"],
+ ["앞의 이야기를 잊었어요","새 채팅을 열었기 때문입니다. 프로젝트는 같은 창에서 이어가고, 필요하면 앞의 결론을 다시 붙여넣으세요."]
+];
+
+var CAD = [
+ ["1주","STEP 00 · 01","내 사진 코치 만들기, 주제 후보 3개"],
+ ["2주","STEP 02","질문 한 문장과 찍을 장소·기간"],
+ ["3주","STEP 03","참고 작업 목록 (검색으로 확인한 것만)"],
+ ["4주","STEP 04","현장에서 지킬 규칙 세 문장"],
+ ["5주","STEP 05","A4 한 장 촬영 계획표"],
+ ["6~n주","STEP 06 반복","매주 남긴 사진과 갱신된 계획표"],
+ ["+2주","STEP 07 · 08","정해진 순서와 내가 다시 쓴 작가노트"],
+ ["마감 전","STEP 09","답할 수 있게 된 곤란한 질문 세 개"]
+];
+
+var KEEP = [
+ ["무엇을 찍고 싶은지 정하는 일","AI는 내가 무엇을 오래 바라봤는지 모릅니다."],
+ ["셔터를 누르는 순간의 판단","그 순간은 어떤 프롬프트로도 대신할 수 없습니다."],
+ ["마지막 한 장을 고르는 결정","후보를 좁히는 것까지가 AI의 몫입니다."],
+ ["작가노트의 문장","뼈대는 맡겨도, 문장은 내 입에서 나와야 합니다."],
+ ["이 작업이 왜 중요한지에 대한 확신","확신은 설득당하는 것이 아니라 쌓이는 것입니다."]
+];
+
+var FIELD_LABEL = {name:"이름", years:"사진 경력", subject:"주로 찍는 것", theme:"주제 후보",
+  question:"내 질문", place:"장소·기간", rules:"나의 규칙"};
+var BLANK = {years:"__", subject:"____", theme:"____________", question:"____________",
+  place:"____________", rules:"____________"};
+
+/* ─────────── 저장 ─────────── */
+var KEY = "misa-gemini-worksheet-v1";
+var state = {card:{}, ans:{}, gate:{}};
+try{ var raw = localStorage.getItem(KEY); if(raw){ var p = JSON.parse(raw);
+  if(p && typeof p === "object"){ state.card = p.card||{}; state.ans = p.ans||{}; state.gate = p.gate||{}; } } }catch(e){}
+var saveTimer = null;
+function save(){ if(saveTimer) clearTimeout(saveTimer);
+  saveTimer = setTimeout(function(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }, 250); }
+
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+/* 프롬프트 본문 렌더: {{key}} 치환 + *굵게* */
+function renderBody(body){
+  var html = esc(body);
+  html = html.replace(/\*([^*\n]+)\*/g, "<b>$1</b>");
+  html = html.replace(/\{\{(\w+)\}\}/g, function(_, k){
+    var v = (state.card[k]||"").trim();
+    if(v) return '<span class="slot">' + esc(v) + '</span>';
+    return '<span class="slot empty">' + esc(BLANK[k]||"____") + '</span>';
+  });
+  return html;
+}
+function plainBody(body){
+  return body.replace(/\*/g,"").replace(/\{\{(\w+)\}\}/g, function(_, k){
+    var v = (state.card[k]||"").trim();
+    return v ? v : (BLANK[k]||"____");
+  });
+}
+
+/* ─────────── 화면 그리기 ─────────── */
+var main = document.getElementById("main");
+var rail = document.getElementById("rail");
+var html = "";
+var railHtml = "";
+
+STEPS.forEach(function(st, si){
+  railHtml += '<li><a href="#s'+st.n+'" data-si="'+si+'"><span class="n">'+st.n+'</span><span>'+esc(st.tag)+'</span></a></li>';
+  var h = '<section class="step" id="s'+st.n+'" data-si="'+si+'">';
+  h += '<header class="step-head"><div class="step-no">'+st.n+'</div><div>';
+  h += '<p class="eyebrow">'+esc(st.tag)+'</p><h2>'+esc(st.t)+'</h2></div></header>';
+  h += '<p class="goal">'+esc(st.goal)+'</p>';
+  if(st.prep) h += '<p class="prep">먼저 할 일 · '+esc(st.prep)+'</p>';
+  st.prompts.forEach(function(pr, pi){
+    h += '<figure class="prompt"><div class="prompt-top"><span class="prompt-label">▷ '+esc(pr.label)+'</span>'
+       + '<button class="btn copy" type="button" data-si="'+si+'" data-pi="'+pi+'">복사</button></div>'
+       + '<pre data-body="'+si+'-'+pi+'">'+renderBody(pr.body)+'</pre></figure>';
+  });
+  if(st.example) h += '<div class="trap" style="margin-top:16px"><p>'+esc(st.example)+'</p></div>';
+  if(st.subs){ h += '<div class="sub"><h3>이어서 물어볼 말</h3><ul>';
+    st.subs.forEach(function(t){ h += '<li>'+esc(t)+'</li>'; }); h += '</ul></div>'; }
+  if(st.trap){ h += '<aside class="trap"><h3>잘 안 될 때</h3>';
+    st.trap.forEach(function(t){ h += '<p>'+esc(t)+'</p>'; }); h += '</aside>'; }
+  if(st.alert){ h += '<aside class="alert"><h3>'+esc(st.alert.h)+'</h3>';
+    st.alert.p.forEach(function(t){ h += '<p>'+t+'</p>'; }); h += '</aside>'; }
+  if(st.answer){
+    h += '<div class="answer"><h3>내가 받은 답 적기</h3>'
+      + '<textarea data-ans="'+st.n+'" placeholder="'+esc(st.answer)+'"></textarea>'
+      + '<div class="saved" data-saved="'+st.n+'"></div></div>';
+  }
+  h += '<div class="gate"><h3>'+esc(st.gateHead||"여기까지 되면 다음 단계로")+'</h3><ul>';
+  st.gates.forEach(function(g, gi){
+    h += '<li><label><input type="checkbox" data-g="'+st.n+'-'+gi+'" data-si="'+si+'"><span>'+esc(g)+'</span></label></li>';
+  });
+  h += '</ul></div></section>';
+  html += h;
+});
+
+/* 부록 */
+railHtml += '<li><a href="#fix"><span class="n">＋</span><span>문제 해결</span></a></li>';
+railHtml += '<li><a href="#cad"><span class="n">＋</span><span>진도표</span></a></li>';
+
+html += '<section class="step" id="fix"><header class="step-head"><div class="step-no">＋</div><div>'
+  + '<p class="eyebrow">부록 1 · 문제 해결</p><h2>잘 안 될 때 이렇게 말하세요</h2></div></header>'
+  + '<p class="goal">아래 문장을 그대로 입력창에 치면 됩니다. 대화를 지우지 말고, 같은 창에서 이어서 고쳐 달라고 하는 편이 훨씬 낫습니다.</p>'
+  + '<div class="wrap-x"><table><thead><tr><th>증상</th><th>이렇게 말하세요</th></tr></thead><tbody>';
+FIX.forEach(function(r){ html += '<tr><td class="k">'+esc(r[0])+'</td><td>'+esc(r[1])+'</td></tr>'; });
+html += '</tbody></table></div></section>';
+
+html += '<section class="step" id="cad" style="border-bottom:none"><header class="step-head"><div class="step-no">＋</div><div>'
+  + '<p class="eyebrow">부록 2 · 진도표</p><h2>8주로 한 바퀴 돌리기</h2></div></header>'
+  + '<p class="goal">한 번에 다 하지 마세요. STEP 06은 실제로 찍는 기간만큼 걸립니다.</p>'
+  + '<div class="wrap-x"><table><thead><tr><th>주차</th><th>단계</th><th>이 주에 손에 남는 것</th></tr></thead><tbody>';
+CAD.forEach(function(r){ html += '<tr><td class="w">'+esc(r[0])+'</td><td class="s">'+esc(r[1])+'</td><td>'+esc(r[2])+'</td></tr>'; });
+html += '</tbody></table></div>';
+
+html += '<div class="closing"><p class="eyebrow">끝으로</p><h2>AI에게 넘기지 말아야 할 다섯 가지</h2><ol>';
+KEEP.forEach(function(r){ html += '<li><span><b>'+esc(r[0])+'</b> — '+esc(r[1])+'</span></li>'; });
+html += '</ol><p class="tail">AI는 내 사진을 더 좋게 만들지 않습니다. 내가 이미 하고 있던 것을 더 빨리 알아차리게 할 뿐입니다.</p></div>';
+html += '<p class="colophon">미학적사진학교 · 『셔터 이전의 세계』 입문 과정 · 황인선</p></section>';
+
+main.innerHTML = html;
+rail.innerHTML = railHtml;
+
+/* ─────────── 상태 반영 ─────────── */
+var cardInputs = document.querySelectorAll("[data-k]");
+cardInputs.forEach(function(el){
+  var k = el.getAttribute("data-k");
+  if(state.card[k]) el.value = state.card[k];
+  el.addEventListener("input", function(){ state.card[k] = el.value; save(); repaintPrompts(); });
+});
+function repaintPrompts(){
+  STEPS.forEach(function(st, si){
+    st.prompts.forEach(function(pr, pi){
+      var pre = main.querySelector('pre[data-body="'+si+'-'+pi+'"]');
+      if(pre) pre.innerHTML = renderBody(pr.body);
+    });
+  });
+}
+
+var answers = main.querySelectorAll("[data-ans]");
+answers.forEach(function(el){
+  var k = el.getAttribute("data-ans");
+  if(state.ans[k]) el.value = state.ans[k];
+  var note = main.querySelector('[data-saved="'+k+'"]');
+  el.addEventListener("input", function(){
+    state.ans[k] = el.value; save();
+    if(note){ note.textContent = "저장됨"; clearTimeout(note._t);
+      note._t = setTimeout(function(){ note.textContent = ""; }, 1400); }
+  });
+});
+
+var boxes = main.querySelectorAll("[data-g]");
+boxes.forEach(function(b){
+  var k = b.getAttribute("data-g");
+  if(state.gate[k]) b.checked = true;
+  b.addEventListener("change", function(){ state.gate[k] = b.checked; save(); updateProgress(); });
+});
+
+var pfill = document.getElementById("pfill"), pnum = document.getElementById("pnum");
+var railLinks = Array.prototype.slice.call(rail.querySelectorAll("a"));
+function updateProgress(){
+  var total = 0, done = 0;
+  STEPS.forEach(function(st, si){
+    var sTotal = st.gates.length, sDone = 0;
+    st.gates.forEach(function(_, gi){ if(state.gate[st.n+"-"+gi]) sDone++; });
+    total += sTotal; done += sDone;
+    var link = railLinks[si];
+    if(link){ if(sDone === sTotal) link.classList.add("done"); else link.classList.remove("done"); }
+  });
+  pnum.textContent = done + " / " + total;
+  pfill.style.width = (total ? Math.round(done/total*100) : 0) + "%";
+}
+updateProgress();
+
+/* ─────────── 복사 ─────────── */
+var toast = document.getElementById("toast");
+function say(msg){ toast.textContent = msg; toast.classList.add("on");
+  clearTimeout(toast._t); toast._t = setTimeout(function(){ toast.classList.remove("on"); }, 1800); }
+
+function copyText(text, ok){
+  function fallback(){
+    try{
+      var ta = document.createElement("textarea");
+      ta.value = text; ta.style.position="fixed"; ta.style.opacity="0";
+      document.body.appendChild(ta); ta.select();
+      document.execCommand("copy"); document.body.removeChild(ta); ok();
+    }catch(e){ say("복사가 안 됩니다. 글을 드래그해서 직접 복사해 주세요."); }
+  }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(ok, fallback);
+  } else { fallback(); }
+}
+main.addEventListener("click", function(e){
+  var btn = e.target.closest(".copy");
+  if(!btn) return;
+  var si = +btn.getAttribute("data-si"), pi = +btn.getAttribute("data-pi");
+  var text = plainBody(STEPS[si].prompts[pi].body);
+  copyText(text, function(){
+    btn.textContent = "복사됨";
+    setTimeout(function(){ btn.textContent = "복사"; }, 1500);
+    say("복사했습니다. 제미나이 입력창에 붙여넣으세요.");
+  });
+});
+
+/* ─────────── 내보내기 ─────────── */
+function buildExport(){
+  var out = "나의 사진 주제 워크시트\n미학적사진학교 · 제미나이 입문 과정\n작성일 " + new Date().toLocaleDateString("ko-KR") + "\n\n";
+  out += "── 내 프로젝트 카드 ──\n";
+  Object.keys(FIELD_LABEL).forEach(function(k){
+    out += FIELD_LABEL[k] + " : " + ((state.card[k]||"").trim() || "(비어 있음)") + "\n";
+  });
+  STEPS.forEach(function(st){
+    out += "\n── STEP " + st.n + " · " + st.tag + " — " + st.t + " ──\n";
+    if(st.answer){ out += "[" + st.answer + "]\n" + ((state.ans[st.n]||"").trim() || "(비어 있음)") + "\n"; }
+    st.gates.forEach(function(g, gi){ out += (state.gate[st.n+"-"+gi] ? "[v] " : "[ ] ") + g + "\n"; });
+  });
+  return out;
+}
+var exportBtn = document.getElementById("exportBtn");
+exportBtn.addEventListener("click", function(){
+  copyText(buildExport(), function(){
+    say("워크시트 전체를 글로 복사했습니다. 메모장·한글·메일에 붙여넣어 보관하세요.");
+  });
+});
+document.getElementById("resetBtn").addEventListener("click", function(){
+  if(!window.confirm("작성한 내용을 모두 지웁니다. 계속할까요?")) return;
+  state = {card:{}, ans:{}, gate:{}};
+  try{ localStorage.removeItem(KEY); }catch(e){}
+  cardInputs.forEach(function(el){ el.value = ""; });
+  answers.forEach(function(el){ el.value = ""; });
+  boxes.forEach(function(b){ b.checked = false; });
+  repaintPrompts(); updateProgress(); say("모두 지웠습니다.");
+});
+
+/* ─────────── 제출 코드로 주고받기 ─────────── */
+var viewing = false;
+var myBackup = null;
+
+function refillAll(){
+  cardInputs.forEach(function(el){ el.value = state.card[el.getAttribute("data-k")] || ""; });
+  answers.forEach(function(el){ el.value = state.ans[el.getAttribute("data-ans")] || ""; });
+  boxes.forEach(function(b){ b.checked = !!state.gate[b.getAttribute("data-g")]; });
+  repaintPrompts(); updateProgress();
+}
+function setViewing(on, who){
+  viewing = on;
+  document.body.classList.toggle("viewing", on);
+  cardInputs.forEach(function(el){ el.readOnly = on; });
+  answers.forEach(function(el){ el.readOnly = on; });
+  boxes.forEach(function(b){ b.disabled = on; });
+  ["shareBtn","resetBtn"].forEach(function(id){
+    var el = document.getElementById(id); if(el) el.style.display = on ? "none" : "";
+  });
+  var banner = document.getElementById("banner");
+  banner.classList.toggle("on", on);
+  if(on){
+    document.getElementById("bannerTitle").textContent =
+      (who ? who + " 님의 워크시트" : "받은 워크시트") + "를 보고 있습니다";
+  }
+}
+
+function b64e(bytes){
+  var s = "", CH = 0x8000;
+  for(var i = 0; i < bytes.length; i += CH){ s += String.fromCharCode.apply(null, bytes.subarray(i, i + CH)); }
+  return btoa(s).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+}
+function b64d(str){
+  var t = String(str).trim().replace(/\s+/g,"").replace(/-/g,"+").replace(/_/g,"/");
+  while(t.length % 4) t += "=";
+  var bin = atob(t), out = new Uint8Array(bin.length);
+  for(var i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+  return out;
+}
+function encodeState(obj){
+  var bytes = new TextEncoder().encode(JSON.stringify(obj));
+  if(typeof CompressionStream === "function"){
+    try{
+      var cs = new CompressionStream("gzip");
+      return new Response(new Blob([bytes]).stream().pipeThrough(cs)).arrayBuffer()
+        .then(function(buf){ return "MISA1g" + b64e(new Uint8Array(buf)); });
+    }catch(e){}
+  }
+  return Promise.resolve("MISA1r" + b64e(bytes));
+}
+function decodeState(code){
+  var raw = String(code).trim().replace(/\s+/g,"");
+  var i = raw.indexOf("MISA1");
+  if(i < 0) return Promise.reject(new Error("형식이 아닙니다"));
+  raw = raw.slice(i);
+  var kind = raw.charAt(5), body = raw.slice(6), bytes;
+  try{ bytes = b64d(body); }catch(e){ return Promise.reject(e); }
+  if(kind === "g"){
+    if(typeof DecompressionStream !== "function") return Promise.reject(new Error("이 브라우저에서는 열 수 없습니다"));
+    var ds = new DecompressionStream("gzip");
+    return new Response(new Blob([bytes]).stream().pipeThrough(ds)).arrayBuffer()
+      .then(function(buf){ return JSON.parse(new TextDecoder().decode(buf)); });
+  }
+  if(kind === "r") return Promise.resolve(JSON.parse(new TextDecoder().decode(bytes)));
+  return Promise.reject(new Error("알 수 없는 형식"));
+}
+
+var modal = document.getElementById("modal"),
+    modalTitle = document.getElementById("modalTitle"),
+    modalNote = document.getElementById("modalNote"),
+    modalText = document.getElementById("modalText"),
+    modalOk = document.getElementById("modalOk"),
+    modalClose = document.getElementById("modalClose");
+var modalMode = "share";
+function openModal(mode, title, note, value, okLabel){
+  modalMode = mode; modalTitle.textContent = title; modalNote.textContent = note;
+  modalText.value = value || ""; modalText.readOnly = (mode === "share");
+  modalOk.textContent = okLabel; modal.hidden = false;
+  setTimeout(function(){ modalText.focus(); if(mode === "share") modalText.select(); }, 30);
+}
+function closeModal(){ modal.hidden = true; }
+modalClose.addEventListener("click", closeModal);
+modal.addEventListener("click", function(e){ if(e.target === modal) closeModal(); });
+document.addEventListener("keydown", function(e){ if(e.key === "Escape" && !modal.hidden) closeModal(); });
+
+document.getElementById("shareBtn").addEventListener("click", function(){
+  var who = (state.card.name || "").trim();
+  encodeState({v:1, name:who, card:state.card, ans:state.ans, gate:state.gate}).then(function(code){
+    openModal("share", "제출 코드",
+      "아래 코드 전체를 복사해 카카오톡·메일·게시판에 붙여넣어 보내세요. 받은 사람은 이 페이지에서 ‘받은 코드 열기’에 붙여넣으면 내가 쓴 내용이 그대로 펼쳐집니다.",
+      code, "복사");
+  }, function(){ say("코드를 만들지 못했습니다."); });
+});
+document.getElementById("openBtn").addEventListener("click", function(){
+  openModal("open", "받은 코드 열기",
+    "받은 제출 코드를 아래에 붙여넣고 ‘열기’를 누르세요. 읽기 전용으로 보이며, 내가 쓰던 내용은 지워지지 않습니다.",
+    "", "열기");
+});
+modalOk.addEventListener("click", function(){
+  if(modalMode === "share"){
+    copyText(modalText.value, function(){ say("제출 코드를 복사했습니다."); closeModal(); });
+    return;
+  }
+  var code = modalText.value;
+  if(!code.trim()){ say("코드를 붙여넣어 주세요."); return; }
+  decodeState(code).then(function(obj){
+    if(!obj || typeof obj !== "object") throw new Error("bad");
+    if(!viewing) myBackup = JSON.parse(JSON.stringify(state));
+    state = {card: obj.card || {}, ans: obj.ans || {}, gate: obj.gate || {}};
+    refillAll(); setViewing(true, (obj.name || (obj.card && obj.card.name) || "").trim());
+    closeModal(); window.scrollTo({top:0, behavior:"smooth"});
+    say("워크시트를 불러왔습니다.");
+  }, function(){ say("코드를 읽지 못했습니다. 전체를 다시 복사해 붙여넣어 주세요."); });
+});
+
+document.getElementById("backBtn").addEventListener("click", function(){
+  if(myBackup) state = myBackup;
+  else { state = {card:{}, ans:{}, gate:{}};
+    try{ var r = localStorage.getItem(KEY); if(r){ var p = JSON.parse(r);
+      state = {card:p.card||{}, ans:p.ans||{}, gate:p.gate||{}}; } }catch(e){} }
+  myBackup = null; refillAll(); setViewing(false); say("내 워크시트로 돌아왔습니다.");
+});
+document.getElementById("importBtn").addEventListener("click", function(){
+  if(!window.confirm("지금 보고 있는 내용을 내 워크시트로 덮어씁니다. 계속할까요?")) return;
+  myBackup = null; setViewing(false); save(); say("내 워크시트로 가져왔습니다.");
+});
+
+/* 주소 끝에 #w=코드 가 붙어 있으면 바로 열기 */
+if(location.hash && location.hash.indexOf("#w=") === 0){
+  decodeState(decodeURIComponent(location.hash.slice(3))).then(function(obj){
+    myBackup = JSON.parse(JSON.stringify(state));
+    state = {card: obj.card || {}, ans: obj.ans || {}, gate: obj.gate || {}};
+    refillAll(); setViewing(true, (obj.name || "").trim());
+  }, function(){});
+}
+
+/* ─────────── 스크롤 스파이 ─────────── */
+var sections = Array.prototype.slice.call(main.querySelectorAll("section[id]"));
+var map = {};
+railLinks.forEach(function(a){ map[a.getAttribute("href").slice(1)] = a; });
+if("IntersectionObserver" in window){
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){
+        railLinks.forEach(function(a){ a.classList.remove("on"); });
+        var a = map[en.target.id]; if(a) a.classList.add("on");
+      }
+    });
+  }, {rootMargin:"-12% 0px -72% 0px", threshold:0});
+  sections.forEach(function(s){ io.observe(s); });
+}
+})();
+</script>
+
+</body>
+</html>
